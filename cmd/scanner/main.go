@@ -1,41 +1,35 @@
-
 package main
 
 import(
 	"fmt"
-	"Security-Automated-Scanner/pkg/recon" //Repo ismine göre import yolunu kontrol et 
-)
-
+	"Security-Automated-Scanner/internal/db"
+	"Security-Automated-Scanner/pkg/recon"
+	Security-Automated-Scanner/pkg/reporter"
+	)
 func main(){
 
-	fmt.Println("--- Security Automated Scanner Starting ---")
+	fmt.Println("--Security Automated Scanner Starting --")
 
-	//Tarayacağımız hedefi belirle 
+	//1.Tarayacğımız hedefi belirle 
+	target := "example.com"
 
-	target: = "example.com"
-
-	//Scanner nesnesini oluştur
-
-	Scanner := recon.SubdomainScanner{
+	//2.Scanner nesnesini oluştur
+	scanner := recon.SubdomainScanner{
 
 		Target: target,
 	}
 
-	//Tarama işlemini başlat
-	Scanner.PerformScan()
+	//3. Tarama işlemini başlat 
+	fmt.Println("Scanning target: ", target)
+	scanner.PerformScan()
+	fmt.Println("----Scan Completed ---")
 
-	fmt.Println("---Scan Completed ---")
+	//4.Tarama bittikten sonra verileri çek ve raporla 
+	allFindings := db.GetAllFindings()
+
+	//5.Raporu görüntüle ve kaydet
+
+	reporter.DisplayFindings(allFindings)
+	reporter.ExportToMarkdown(allFindings, "scan_report.md")
+	
 }
-import(
-	"your-module-path/pkg/reporter" //kendi modül isminle güncelle
-	"your-module-path/internal/db"
-	)
-
-//tarama kodları
-
-//Tarama bittikten sonra:
-allFindings := db.GetAllFindings() //db paketinden verileri çeken fonksiyon
-reporter.DisplayFindings(allFindings)
-
-//Otomatik Markdown raporu 
-reporter.ExportToMarkdown(allFindings, "scan_report.md")
