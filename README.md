@@ -36,3 +36,8 @@ This project is licensed under the MIT License
    To run a scan , execute the main package
 
    go run cmd/scanner/main.go
+
+''bash
+Contributing
+
+Pull requests are welcome. For major changes please open a issue first to discuss what you would like to change
