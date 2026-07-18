@@ -20,3 +20,9 @@ Roadmap
 License 
 
 This project is licensed under the MIT License 
+
+
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/denizguney/Security-Automated-Scanner.git](https://github.com/denizguney/Security-Automated-Scanner.git)
