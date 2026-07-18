@@ -37,7 +37,7 @@ This project is licensed under the MIT License
 
    go run cmd/scanner/main.go
 
-''bash
+''
 Contributing
 
 Pull requests are welcome. For major changes please open a issue first to discuss what you would like to change
