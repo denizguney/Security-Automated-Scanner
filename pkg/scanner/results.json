@@ -1,1 +1,46 @@
+package main
 
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"strings"
+)
+
+type Finding struct {
+	Type     string `json:"type"`
+	File     string `json:"file"`
+	Snippet  string `json:"snippet"`
+}
+
+var findings []Finding
+
+func analyzeFile(path string) {
+	content, _ := os.ReadFile(path)
+	lines := strings.Split(string(content), "\n")
+
+	for _, line := range lines {
+		// Güvenlik desenleri kontrolü
+		if strings.Contains(line, "child_process.exec") || strings.Contains(line, "spawn(") {
+			addFinding("RCE_RISK", path, line)
+		}
+		if strings.Contains(line, ".innerHTML") || strings.Contains(line, "webview.html =") {
+			addFinding("XSS_RISK", path, line)
+		}
+		if strings.Contains(line, "ipc.on") || strings.Contains(line, "ipc.send") {
+			addFinding("IPC_POINT", path, line)
+		}
+	}
+}
+
+func addFinding(findingType, path, line string) {
+	f := Finding{Type: findingType, File: path, Snippet: strings.TrimSpace(line)}
+	findings = append(findings, f)
+	fmt.Printf("[%s] Found in %s\n", findingType, path)
+}
+
+func saveResults() {
+	file, _ := json.MarshalIndent(findings, "", "  ")
+	_ = os.WriteFile("results.json", file, 0644)
+	fmt.Println("\n[!] Tarama tamamlandı. Bulgular results.json dosyasına kaydedildi.")
+}
