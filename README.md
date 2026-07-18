@@ -26,3 +26,13 @@ This project is licensed under the MIT License
 1. Clone the repository:
    ```bash
    git clone [https://github.com/denizguney/Security-Automated-Scanner.git](https://github.com/denizguney/Security-Automated-Scanner.git)
+
+
+   Intialize the module
+
+   go mod init Security-Automated-Scanner
+
+   Usage
+   To run a scan , execute the main package
+
+   go run cmd/scanner/main.go
